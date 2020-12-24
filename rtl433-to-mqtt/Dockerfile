@@ -6,7 +6,7 @@ ENV LANG C.UTF-8
 
 LABEL Description="This image is used to start a script that will monitor for RF events on 433Mhz (configurable) and send the data to an MQTT server"
 
-RUN apk add --no-cache --virtual build-deps alpine-sdk cmake git libusb-dev python3 python3-dev && \
+RUN apk add --no-cache --virtual build-deps alpine-sdk cmake git libusb-dev python3 python3-dev python3-pip && \
     pip3 install paho-mqtt && \
     mkdir /tmp/src && \
     cd /tmp/src && \
