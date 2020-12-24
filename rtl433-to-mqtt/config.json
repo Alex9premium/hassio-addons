@@ -36,6 +36,7 @@
     "protocol": "int",
     "frequency": "int",
     "gain": "int",
-    "frequency_offset": "int"
+    "frequency_offset": "int",
+	"sample_rate": "int"
    }
 }

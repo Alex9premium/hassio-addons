@@ -29,6 +29,9 @@ RUN apk add --no-cache --virtual build-deps alpine-sdk cmake git libusb-dev pyth
     rm -r /tmp/src && \
     apk add --no-cache libusb mosquitto-clients jq
 
+RUN apk add --no-cache python3 python3-dev py3-pip && \
+    pip3 install paho-mqtt 
+
 ENV MQTT_HOST="core-mosquitto"
 ENV MQTT_USER="my_user"
 ENV MQTT_PASS="my_password"

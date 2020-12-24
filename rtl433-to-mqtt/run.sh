@@ -26,5 +26,6 @@ echo "RTL_433 Gain =" $GAIN
 echo "RTL_433 Frequency Offset =" $OFFSET
 echo "RTL_433 Sample Rate =" $SAMPLE_RATE
 
-
+echo python --version
+echo python3 --version
 exec python3 /rtl2mqtt.py "$MQTT_HOST" "$MQTT_USER" "$MQTT_PASS" "$MQTT_TOPIC" "$PROTOCOL" "$FREQUENCY" "$GAIN" "$OFFSET" "$SAMPLE_RATE"
