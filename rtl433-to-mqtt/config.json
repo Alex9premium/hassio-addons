@@ -1,0 +1,41 @@
+{
+  "name": "RTL_433 to MQTT Bridge with Discovery",
+  "version": "0.1",
+  "slug": "rtl433-to-mqtt",
+  "description": "433MHz RF to MQTT Bridge based on RTL_SDR/RTL_433 for RTL2832U based DVB-T USB tuners",
+  "url": "https://github.com/Alex9premium/hassio-addons/tree/main/rtl433-to-mqtt",
+  "startup": "before",
+  "boot": "auto",
+  "map": ["config:rw", "ssl"],
+  "devices": ["/dev/bus/usb:/dev/bus/usb:rwm"],
+  "host_network": "False",
+  "arch": [
+    "aarch64",
+    "amd64",
+    "armv7",
+    "i386"
+  ],
+  "options":
+  {
+    "mqtt_host": "core-mosquitto",
+    "mqtt_user": "my_user",
+    "mqtt_password": "my_password",
+    "mqtt_topic": "homeassistant",
+    "protocol": 151,
+    "frequency": 868950000,
+    "gain": 0,
+    "frequency_offset": 0,
+    "sample_rate": 250000
+  },
+  "schema":
+  {
+    "mqtt_host": "str",
+    "mqtt_user": "str",
+    "mqtt_password": "str",
+    "mqtt_topic": "str",
+    "protocol": "int",
+    "frequency": "int",
+    "gain": "int",
+    "frequency_offset": "int"
+   }
+}
