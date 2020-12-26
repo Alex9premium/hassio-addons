@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
  
 import sys
-import os
 import json
 import paho.mqtt.client as mqtt
 import subprocess
-import shlex
  
 MQTT_HOST = sys.argv[1]
 MQTT_PORT = 1883
@@ -38,7 +36,7 @@ client.loop_start()
 if __name__ == '__main__':
     while True:
         last = ""
-        for line in execute(shlex.split("rtl_433 -F json -R ", PROTOCOL, "-f ", FREQUENCY, "-g ", GAIN, "-p ", OFFSET, "-s ", SAMPLE_RATE, "-M newmodel -M level -M stats -C si")):
+        for line in execute("rtl_433", "-F", "json", "-R", PROTOCOL, "-f", FREQUENCY, "-g", GAIN, "-p", OFFSET, "-s", SAMPLE_RATE, "-M", "newmodel", "-C", "si"):
             if last != line:
                 try:
                     data = json.loads(line)
