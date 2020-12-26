@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
  
 import sys
+import os
 import json
 import paho.mqtt.client as mqtt
 import subprocess
+import shlex
  
 MQTT_HOST = sys.argv[1]
 MQTT_PORT = 1883
@@ -21,7 +23,7 @@ def on_connect(client, userdata, flags, rc):
     print("* MQTT connected")
  
 def execute(cmd):
-    popen = subprocess.Popen(cmd, stdout=subprocess.PIPE, universal_newlines=True)
+    popen = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE, universal_newlines=True)
     for line in popen.stdout:
         yield line
     popen.stdout.close()
@@ -36,7 +38,7 @@ client.loop_start()
 if __name__ == '__main__':
     while True:
         last = ""
-        for line in execute("rtl_433", "-F", "json", "-R", PROTOCOL, "-f", FREQUENCY, "-g", GAIN, "-p", OFFSET, "-s", SAMPLE_RATE, "-M", "newmodel", "-C", "si"):
+        for line in execute("rtl_433 -F json -R %s -f %s -g %s -p %s -s %s -M newmodel -C si" % (PROTOCOL, FREQUENCY, GAIN, OFFSET, SAMPLE_RATE)):
             if last != line:
                 try:
                     data = json.loads(line)
@@ -44,9 +46,6 @@ if __name__ == '__main__':
                     devid = data["id"]
                     topic = "{}/{}/{}".format(MQTT_TOPIC,model,devid)
                     print(topic+" "+line)
-                    log = open("/var/log/rtl433mqtt.log","a")
-                    log.write(topic+" "+line)
-                    log.close()
                     client.publish(topic,line)
                 except json.decoder.JSONDecodeError:
                     pass
